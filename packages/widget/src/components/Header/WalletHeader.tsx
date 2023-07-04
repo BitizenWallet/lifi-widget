@@ -4,68 +4,111 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNewRounded';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNewRounded';
 import WalletIcon from '@mui/icons-material/Wallet';
 import { Avatar, Button, MenuItem } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useChain } from '../../hooks';
-import { useWallet, useWidgetConfig } from '../../providers';
-import { navigationRoutes, shortenAddress } from '../../utils';
+import { SwapFormKey, SwapFormKeyHelper, SwapFormTypeProps, useWallet, useWidgetConfig } from '../../providers';
+import { navigationRoutes, openUrlInBitizen, shortenAddress } from '../../utils';
 import { HeaderAppBar, WalletButton } from './Header.style';
 import { WalletMenu } from './WalletMenu';
+import { supportedWallets } from '@lifi/wallet-management';
+import { useController, useFormContext, useWatch } from 'react-hook-form';
+import { useSendToWalletStore, useSettings, useSettingsStore } from '../../stores';
 
 export const WalletHeader: React.FC = () => {
   return (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
-      <WalletMenuButton />
+      <WalletMenuButton formType='from' />
     </HeaderAppBar>
   );
 };
 
-export const WalletMenuButton: React.FC = () => {
+export const WalletMenuButton: React.FC<SwapFormTypeProps> = ({ formType }) => {
   const { account } = useWallet();
-  return account.isActive ? <ConnectedButton /> : <ConnectButton />;
+  const [address, chainId] = useWatch({
+    name: [SwapFormKey.ToAddress, SwapFormKeyHelper.getChainKey(formType)],
+  });
+  const connected = formType == 'from' ? account.isActive : (chainId == account.chainId || address?.toString().length > 0);
+  return connected ? <ConnectedButton formType={formType} /> : <ConnectButton formType={formType} />;
 };
 
-const ConnectButton = () => {
+const ConnectButton = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { walletManagement, subvariant } = useWidgetConfig();
-  const { connect: connectWallet } = useWallet();
+  const { connect: connectWallet, disconnect } = useWallet();
   const navigate = useNavigate();
-  const connect = async () => {
-    if (walletManagement) {
-      await connectWallet();
-      return;
+  const { setValue, getValues, trigger } = useFormContext();
+  const { setSendToWallet, showSendToWallet } =
+    useSendToWalletStore();
+
+  const connect = async (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
+    if (formType == 'from') {
+      // disconnect();
+      connectWallet(supportedWallets[0]);
+    } else {
+      const chainId = getValues(SwapFormKeyHelper.getChainKey(formType));
+      const resp = await (window as any).ethereum.request({
+        method: 'bitizen_swapRequestToAddress',
+        chainId: '0x' + chainId.toString(16),
+      });
+      setSendToWallet(resp?.toString().length > 0)
+      if (resp?.toString().length) {
+        setValue(SwapFormKey.ToAddress, resp?.toString(), { shouldTouch: true });
+        trigger(SwapFormKey.ToAddress);
+      }
     }
-    navigate(navigationRoutes.selectWallet);
   };
   return (
     <WalletButton
-      endIcon={subvariant !== 'split' ? <WalletIcon /> : undefined}
+      endIcon={subvariant !== 'split' ? <WalletIcon style={{ fontSize: '12px' }} /> : undefined}
       startIcon={subvariant === 'split' ? <WalletIcon /> : undefined}
       onClick={
         !pathname.includes(navigationRoutes.selectWallet) ? connect : undefined
       }
-      sx={{
-        marginRight: subvariant === 'split' ? 0 : -1.25,
-        marginLeft: subvariant === 'split' ? -1.25 : 0,
-      }}
+      style={{ fontSize: '12px', fontWeight: '700', padding: 'unset', paddingLeft: '8px', paddingRight: '8px' }}
     >
       {t(`button.connectWallet`)}
     </WalletButton>
   );
 };
 
-const ConnectedButton = () => {
+const ConnectedButton = ({ formType }: SwapFormTypeProps) => {
   const { t } = useTranslation();
-  const { subvariant } = useWidgetConfig();
-  const { account, disconnect } = useWallet();
+  const { account, disconnect, connect } = useWallet();
   const walletAddress = shortenAddress(account.address);
-  const { chain } = useChain(account.chainId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const { setValue, getValues, trigger } = useFormContext();
+  const { chain } = useChain(account.chainId);
+  const { setSendToWallet } =
+    useSendToWalletStore();
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [toAddress] = useWatch({
+    name: [SwapFormKey.ToAddress],
+  });
+
+  const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
+
+    if (formType == 'from') {
+      // disconnect();
+      connect(supportedWallets[0]);
+    } else {
+      const chainId = getValues(SwapFormKeyHelper.getChainKey(formType));
+      const resp = await (window as any).ethereum.request({
+        method: 'bitizen_swapRequestToAddress',
+        chainId: '0x' + chainId.toString(16),
+        params: [toAddress?.toString()],
+      });
+      setSendToWallet(resp?.toString().length > 0)
+      if (resp?.toString().length) {
+        setValue(SwapFormKey.ToAddress, resp?.toString(), { shouldTouch: true });
+        trigger(SwapFormKey.ToAddress)
+      }
+    }
   };
 
   const handleClose = () => {
@@ -85,23 +128,23 @@ const ConnectedButton = () => {
   return (
     <>
       <WalletButton
-        endIcon={<ExpandMoreIcon />}
-        startIcon={
-          <Avatar
-            src={chain?.logoURI}
-            alt={chain?.key}
-            sx={{ width: 24, height: 24 }}
-          >
-            {chain?.name[0]}
-          </Avatar>
-        }
-        sx={{
-          marginRight: subvariant === 'split' ? 0 : -1.25,
-          marginLeft: subvariant === 'split' ? -1 : 0,
-        }}
+        endIcon={<ExpandMoreIcon style={{ fontSize: '12px', marginLeft: '-7px' }} />}
+        // startIcon={
+        //   <Avatar
+        //     src={chain?.logoURI}
+        //     alt={chain?.key}
+        //     sx={{ width: 24, height: 24 }}
+        //   >
+        //     {chain?.name[0]}
+        //   </Avatar>
+        // }
         onClick={handleClick}
+        sx={{
+          fontSize: '12px', fontWeight: '700', padding: 'unset', paddingLeft: '8px', paddingRight: '8px',
+          color: 'rgba(255, 255, 255, 0.75)',
+        }}
       >
-        {walletAddress}
+        {formType == 'from' ? walletAddress : (toAddress?.toString().length > 0 ? toAddress.toString().substring(0, 5) + '...' + toAddress.toString().substring(toAddress.toString().length - 4, toAddress.toString().length) : walletAddress)}
       </WalletButton>
       <WalletMenu
         anchorEl={anchorEl}
@@ -114,9 +157,10 @@ const ConnectedButton = () => {
         </MenuItem>
         <MenuItem
           component="a"
-          onClick={handleClose}
-          href={`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`}
-          target="_blank"
+          onClick={() => {
+            openUrlInBitizen(`${chain?.metamask.blockExplorerUrls[0]}address/${account.address}`);
+            handleClose();
+          }}
         >
           <OpenInNewIcon />
           {t(`button.viewOnExplorer`)}

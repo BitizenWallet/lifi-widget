@@ -14,6 +14,9 @@ import { PoweredBy } from './components/PoweredBy';
 import { SwapRoutesExpanded } from './components/SwapRoutes';
 import { useExpandableVariant } from './hooks';
 import type { WidgetConfig, WidgetProps } from './types';
+import { useTranslation } from 'react-i18next';
+import { useSettingsStore } from "./stores";
+import { AnimatePresence } from 'framer-motion';
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>(
   ({ elementRef, open, integrator, ...other }, ref) => {
@@ -38,18 +41,35 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>(
 );
 
 export const AppDefault = () => {
+  const { t, i18n } = useTranslation();
+  const setValue = useSettingsStore((state) => state.setValue);
+  (window as any).onBitizenLanguageChange = (language: string) => {
+    try {
+      setValue('language', language)
+      i18n.changeLanguage(language)
+    } catch (e) {
+      console.warn(e)
+    }
+  };
+
   const expandable = useExpandableVariant();
+
   return (
-    <AppExpandedContainer>
-      <AppContainer>
-        <Header />
-        <FlexContainer disableGutters>
-          <AppRoutes />
-        </FlexContainer>
-        <PoweredBy />
-        <Initializer />
-      </AppContainer>
-      {expandable ? <SwapRoutesExpanded /> : null}
-    </AppExpandedContainer>
+    <AnimatePresence>
+      <AppRoutes />
+    </AnimatePresence>
+    // <AnimatePresence>
+    //   <AppExpandedContainer>
+    //     <AppContainer>
+    //       <Header />
+    //       <FlexContainer disableGutters>
+    //         <AppRoutes />
+    //       </FlexContainer>
+    //       <PoweredBy />
+    //       <Initializer />
+    //     </AppContainer>
+    //     {expandable ? <SwapRoutesExpanded /> : null}
+    //   </AppExpandedContainer>
+    // </AnimatePresence>
   );
 };

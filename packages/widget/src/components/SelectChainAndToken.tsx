@@ -29,13 +29,13 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const hiddenToToken =
     variant === 'nft' || hiddenUI?.includes(HiddenUI.ToToken);
 
-  const isCompact =
+  const isCompact = false /*
     fromChain &&
     toChain &&
     fromToken &&
     toToken &&
     !prefersNarrowView &&
-    !hiddenToToken;
+    !hiddenToToken; */
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
@@ -49,7 +49,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          m={!hiddenReverse ? -1.125 : 1}
+          m={!hiddenReverse ? -2.55 : 1}
         >
           {!hiddenReverse ? (
             <ReverseTokensButton vertical={!isCompact} />

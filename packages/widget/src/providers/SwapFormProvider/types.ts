@@ -11,6 +11,8 @@ export enum SwapFormKey {
   ToContractGasLimit = 'ToContractGasLimit',
   ToToken = 'toToken',
   TokenSearchFilter = 'tokenSearchFilter',
+  FromPrevChain = 'fromPrevChain',
+  ToPrevChain = 'toPrevChain',
 }
 
 export type SwapFormValues = {
@@ -26,6 +28,8 @@ export type SwapFormValues = {
   [SwapFormKey.ToContractGasLimit]: string;
   [SwapFormKey.ToToken]: string;
   [SwapFormKey.TokenSearchFilter]: string;
+  [SwapFormKey.FromPrevChain]: number;
+  [SwapFormKey.ToPrevChain]: number;
 };
 
 export type SwapFormType = 'from' | 'to';
@@ -37,6 +41,7 @@ export const SwapFormKeyHelper = {
     `${formType}Token`,
   getAmountKey: (formType: SwapFormType): 'fromAmount' | 'toAmount' =>
     `${formType}Amount`,
+  getPrevChainKey: (formType: SwapFormType): 'fromPrevChain' | 'toPrevChain' => `${formType}PrevChain`,
 };
 
 export interface SwapFormTypeProps {

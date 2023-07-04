@@ -25,9 +25,9 @@ const getBackgroundColor = (
         ? alpha(theme.palette.primary.main, 0.04)
         : alpha(theme.palette.primary.main, 0.42)
       : alpha(
-          theme.palette.secondary.main,
-          theme.palette.mode === 'light' ? 0.08 : 0.12,
-        )
+        theme.palette.secondary.main,
+        theme.palette.mode === 'light' ? 0.08 : 0.12,
+      )
     : theme.palette.background.paper;
 
 export const Card = styled(Box, {
@@ -52,17 +52,18 @@ export const Card = styled(Box, {
       : backgroundColor;
     return {
       backgroundColor,
-      border: `1px solid`,
+      // border: `1px solid`,
+      border: 'unset', // bitizen
       borderColor:
         variant === 'error'
           ? theme.palette.error.main
           : variant === 'selected'
-          ? selectionColor === 'primary'
-            ? theme.palette.primary.main
-            : alpha(theme.palette.secondary.main, 0.48)
-          : theme.palette.mode === 'light'
-          ? theme.palette.grey[300]
-          : theme.palette.grey[800],
+            ? selectionColor === 'primary'
+              ? theme.palette.primary.main
+              : alpha(theme.palette.secondary.main, 0.48)
+            : theme.palette.mode === 'light'
+              ? theme.palette.grey[300]
+              : theme.palette.grey[800],
       borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
       position: 'relative',

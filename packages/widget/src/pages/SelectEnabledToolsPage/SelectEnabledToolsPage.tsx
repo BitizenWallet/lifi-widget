@@ -17,6 +17,14 @@ import { ListItemText } from '../../components/ListItemText';
 import { useTools } from '../../hooks';
 import { useSettingsStore } from '../../stores';
 import { ListItemButton } from './SelectEnabledToolsPage.style';
+import { motion } from 'framer-motion'
+import { AppContainer } from '../../components/AppContainer';
+import { FlexContainer } from '../../components/AppContainer';
+import { Header } from '../../components/Header';
+import { Initializer } from '../../components/Initializer';
+import { PoweredBy } from '../../components/PoweredBy';
+import { SwapRoutesExpanded } from '../../components/SwapRoutes';
+import { useExpandableVariant } from '../../hooks';
 
 export const SelectEnabledToolsPage: React.FC<{
   type: 'Bridges' | 'Exchanges';
@@ -70,30 +78,47 @@ export const SelectEnabledToolsPage: React.FC<{
     );
   }, [enabledTools.length, setTools, tools, type, typeKey]);
 
+  const expandable = useExpandableVariant();
+
   return (
-    <Container disableGutters>
-      <List
-        sx={{
-          paddingLeft: 1.5,
-          paddingRight: 1.5,
-        }}
-      >
-        {tools?.[typeKey].map((tool) => (
-          <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
-            <ListItemAvatar>
-              <Avatar src={tool.logoURI} alt={tool.name}>
-                {tool.name[0]}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={tool.name} />
-            {enabledTools?.includes(tool.key) ? (
-              <CheckBoxIcon color="primary" />
-            ) : (
-              <CheckBoxOutlineBlankOutlinedIcon />
-            )}
-          </ListItemButton>
-        ))}
-      </List>
-    </Container>
+    <motion.div
+      initial={{ x: '100vw' }}
+      animate={{ x: 0 }}
+      exit={{ x: ['10vw', '50vw', '100vw'] }}
+      transition={{ duration: 0.4, bounce: false, ease: 'easeInOut' }}
+    >
+      <AppContainer>
+        <Header />
+        <FlexContainer disableGutters>
+          <Container disableGutters>
+            <List
+              sx={{
+                paddingLeft: 1.5,
+                paddingRight: 1.5,
+              }}
+            >
+              {tools?.[typeKey].map((tool) => (
+                <ListItemButton key={tool.name} onClick={() => handleClick(tool.key)}>
+                  <ListItemAvatar>
+                    <Avatar src={tool.logoURI} alt={tool.name}>
+                      {tool.name[0]}
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={tool.name} />
+                  {enabledTools?.includes(tool.key) ? (
+                    <CheckBoxIcon color="primary" />
+                  ) : (
+                    <CheckBoxOutlineBlankOutlinedIcon />
+                  )}
+                </ListItemButton>
+              ))}
+            </List>
+          </Container>
+        </FlexContainer>
+        <PoweredBy />
+        <Initializer />
+      </AppContainer>
+      {expandable ? <SwapRoutesExpanded /> : null}
+    </motion.div>
   );
 };

@@ -7,6 +7,7 @@ import { SwapFormKey } from '../../providers';
 import { Token } from '../Token';
 import { PreviewAvatar } from './NFT.style';
 import type { NFTProps } from './types';
+import { openUrlInBitizen } from '../../utils';
 
 export const NFT: React.FC<BoxProps & NFTProps> = ({
   imageUrl,
@@ -66,8 +67,7 @@ export const NFT: React.FC<BoxProps & NFTProps> = ({
             <Typography fontSize={14} color="text.secondary">
               {t('swap.ownedBy')}{' '}
               <Link
-                href={owner.url}
-                target="_blank"
+                onClick={() => openUrlInBitizen(owner.url || "#")}
                 underline="none"
                 color="primary"
               >

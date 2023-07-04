@@ -1,4 +1,4 @@
-import { Skeleton } from '@mui/material';
+import { Skeleton, Box } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { navigationRoutes } from '../../utils';
 import { Card, CardTitle } from '../Card';
 import { TokenAvatar, TokenAvatarDefault } from '../TokenAvatar';
 import { SelectTokenCardHeader } from './SelectTokenButton.style';
+import { WalletHeader, WalletMenuButton } from '../../components/Header/WalletHeader';
 
 export const SelectTokenButton: React.FC<
   SwapFormTypeProps & {
@@ -31,8 +32,8 @@ export const SelectTokenButton: React.FC<
       formType === 'from'
         ? navigationRoutes.fromToken
         : variant === 'refuel'
-        ? navigationRoutes.toTokenNative
-        : navigationRoutes.toToken,
+          ? navigationRoutes.toTokenNative
+          : navigationRoutes.toToken,
     );
   };
 
@@ -42,21 +43,34 @@ export const SelectTokenButton: React.FC<
     formType === 'to' && variant === 'refuel'
       ? t('swap.selectChain')
       : formType === 'to' && swapOnly
-      ? t('swap.selectToken')
-      : t('swap.selectChainAndToken');
+        ? t('swap.selectToken')
+        : t('swap.selectChainAndToken');
   const cardTitle =
     formType === 'from' && variant === 'nft'
       ? t(`header.payWith`)
       : t(`swap.${formType}`);
   return (
     <Card flex={1} onClick={onClick}>
-      <CardTitle>{cardTitle}</CardTitle>
+      <Box display={'flex'} justifyContent={'space-between'} marginTop={'12px'} paddingLeft={'14px'} paddingRight={'14px'} alignItems={'center'}>
+        <CardTitle style={{
+          margin: 'unset',
+          padding: 'unset',
+        }} fontSize={'14px'} display={'inline-block'}>{cardTitle}</CardTitle>
+
+        {chainId && tokenAddress && (
+          <WalletMenuButton formType={formType} />
+        )}
+
+      </Box>
       {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
         <SelectTokenCardHeader
           avatar={<Skeleton variant="circular" width={32} height={32} />}
           title={<Skeleton variant="text" width={64} height={24} />}
           subheader={<Skeleton variant="text" width={64} height={16} />}
           compact={compact}
+          sx={{
+            marginTop: -1,
+          }}
         />
       ) : (
         <SelectTokenCardHeader
@@ -67,6 +81,11 @@ export const SelectTokenButton: React.FC<
               <TokenAvatarDefault />
             )
           }
+          style={{
+            fontSize: '15px',
+            fontWeight: '600',
+            paddingTop: 'unset',
+          }}
           title={isSelected ? token.symbol : defaultPlaceholder}
           subheader={
             isSelected ? t(`swap.onChain`, { chainName: chain.name }) : null

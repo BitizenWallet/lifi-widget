@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^2.0.0-beta.11",
+    "@lifi/sdk": "../../../lifi-sdk",
     "@lifi/widget": "^2.0.0-beta.7",
     "next": "13.4.0",
     "react": "18.2.0",

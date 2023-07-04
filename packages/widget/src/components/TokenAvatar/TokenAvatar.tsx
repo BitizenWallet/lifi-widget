@@ -37,7 +37,10 @@ export const TokenAvatarBase: React.FC<{
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       badgeContent={
         chain && !isLoading ? (
-          <SmallAvatar src={chain.logoURI} alt={chain.name}>
+          <SmallAvatar style={{
+            width: 15,
+            height: 15,
+          }} src={chain.logoURI} alt={chain.name}>
             {chain.name[0]}
           </SmallAvatar>
         ) : (
@@ -47,9 +50,12 @@ export const TokenAvatarBase: React.FC<{
       sx={sx}
     >
       {isLoading ? (
-        <Skeleton width={32} height={32} variant="circular" />
+        <Skeleton width={35} height={35} variant="circular" />
       ) : (
-        <Avatar src={token?.logoURI} alt={token?.symbol}>
+        <Avatar style={{
+          width: 35,
+          height: 35,
+        }} src={token?.logoURI} alt={token?.symbol}>
           {token?.symbol?.[0]}
         </Avatar>
       )}
@@ -83,10 +89,10 @@ export const TokenAvatarDefault: React.FC<{
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<AvatarDefaultBadge width={16} height={16} />}
+      badgeContent={<AvatarDefaultBadge width={15} height={15} />}
       sx={sx}
     >
-      <AvatarDefault width={32} height={32} />
+      <AvatarDefault width={35} height={35} />
     </Badge>
   );
 };

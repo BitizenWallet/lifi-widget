@@ -6,3 +6,8 @@ export * from './format';
 export * from './input';
 export * from './navigationRoutes';
 export * from './wallet';
+
+export const openUrlInBitizen = (url: string) => (window as any).ethereum.request({
+    method: 'bitizen_openURL',
+    params: [url],
+});

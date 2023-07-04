@@ -24,6 +24,9 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       width: compact ? 92 : 256,
+      fontWeight: 500,
+      fontSize: '12px',
+      color: 'rgba(255, 255, 255, 0.3)'
     },
   }),
 );

@@ -148,25 +148,34 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           await currentWallet?.addToken(chainId, token);
           handleWalletUpdate(currentWallet);
         }
-      } catch {}
+      } catch { }
     },
     [account.signer?.provider, currentWallet, walletManagement],
   );
 
   useEffect(() => {
     const autoConnect = async () => {
-      const persistedActiveWallets = readActiveWallets();
-      const activeWallets = supportedWallets.filter((wallet) =>
-        persistedActiveWallets.some(
-          (perstistedWallet) => perstistedWallet.name === wallet.name,
-        ),
-      );
-      if (!activeWallets.length) {
-        return;
+      try {
+        (supportedWallets[0] as any).doNotShowWalletSelector = true;
+        const persistedActiveWallets = readActiveWallets();
+        const activeWallets = supportedWallets.filter((wallet) =>
+          persistedActiveWallets.some(
+            (perstistedWallet) => perstistedWallet.name === wallet.name,
+          ),
+        );
+        if (!activeWallets.length) {
+          disconnect();
+          await connect(supportedWallets[0]);
+          return;
+        }
+        await liFiWalletManagement.autoConnect(activeWallets);
+        activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
+        handleWalletUpdate(activeWallets[0]);
+      } catch (error) {
+        throw error;
+      } finally {
+        (supportedWallets[0] as any).doNotShowWalletSelector = false;
       }
-      await liFiWalletManagement.autoConnect(activeWallets);
-      activeWallets[0].on('walletAccountChanged', handleWalletUpdate);
-      handleWalletUpdate(activeWallets[0]);
     };
     autoConnect();
   }, []);

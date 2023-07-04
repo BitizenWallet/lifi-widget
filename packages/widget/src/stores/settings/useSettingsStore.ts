@@ -16,7 +16,7 @@ export const defaultConfigurableSettings: Pick<
 export const defaultSettings: SettingsProps = {
   appearance: 'auto',
   gasPrice: 'normal',
-  enabledAutoRefuel: true,
+  enabledAutoRefuel: false,
   showDestinationWallet: true,
   enabledBridges: [],
   enabledExchanges: [],

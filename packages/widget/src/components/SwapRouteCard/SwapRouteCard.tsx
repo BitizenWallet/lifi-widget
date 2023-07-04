@@ -66,22 +66,36 @@ export const SwapRouteCard: React.FC<
               </CardLabel>
             </InsuranceTooltip>
           ) : null}
-          {route.tags?.length ? (
-            <RecommendedTagTooltip>
-              <CardLabel type={active ? 'active' : undefined}>
-                <CardLabelTypography>
-                  {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
-                </CardLabelTypography>
-              </CardLabel>
-            </RecommendedTagTooltip>
-          ) : null}
         </Box>
       ) : null}
-      <Box display="flex" justifyContent="space-between" alignItems="start">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Token
           token={token}
           step={!cardExpanded ? route.steps[0] : undefined}
+          suffix={
+            route.tags?.length ? (
+              <RecommendedTagTooltip>
+                <CardLabel sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                  color: 'rgba(0, 183, 140, 0.65)',
+                  fontSize: 11,
+                  fontWeight: 500,
+                  paddingLeft: '12px',
+                  paddingRight: '12px',
+                  paddingTop: '3px',
+                  paddingBottom: '3px',
+                  height: 'auto',
+                  width: 'auto',
+                }} type={active ? 'active' : undefined}>
+                  <CardLabelTypography sx={{ padding: 'unset' }}>
+                    {t(`swap.tags.${route.tags[0].toLowerCase()}` as any)}
+                  </CardLabelTypography>
+                </CardLabel>
+              </RecommendedTagTooltip>
+            ) : null
+          }
         />
+
         {!expanded ? (
           <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}

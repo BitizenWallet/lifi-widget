@@ -23,8 +23,16 @@ import { getStepList } from '../../components/Step';
 import { useNavigateBack } from '../../hooks';
 import { useWidgetConfig } from '../../providers';
 import { useRouteExecutionStore } from '../../stores';
-import { formatTokenAmount } from '../../utils';
+import { formatTokenAmount, openUrlInBitizen } from '../../utils';
 import { Container } from './SwapDetailsPage.style';
+import { motion } from 'framer-motion'
+import { AppContainer } from '../../components/AppContainer';
+import { FlexContainer } from '../../components/AppContainer';
+import { Header } from '../../components/Header';
+import { Initializer } from '../../components/Initializer';
+import { PoweredBy } from '../../components/PoweredBy';
+import { SwapRoutesExpanded } from '../../components/SwapRoutes';
+import { useExpandableVariant } from '../../hooks';
 
 export const SwapDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -76,8 +84,12 @@ export const SwapDetailsPage: React.FC = () => {
     routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0,
   );
 
-  return (
-    <Container>
+  const body = (
+    <Container sx={(theme) => ({
+      [theme.breakpoints.up('xs')]: {
+        padding: theme.spacing(0, 2.6),
+      },
+    })}>
       <Box
         sx={{
           display: 'flex',
@@ -139,9 +151,7 @@ export const SwapDetailsPage: React.FC = () => {
       </Card>
       <Box mt={2}>
         <Button
-          href="https://discord.gg/lifi"
-          target="_blank"
-          rel="nofollow noreferrer"
+          onClick={() => openUrlInBitizen("https://discord.gg/lifi")}
           fullWidth
         >
           {t('button.contactSupport')}
@@ -162,5 +172,26 @@ export const SwapDetailsPage: React.FC = () => {
         </DialogActions>
       </Dialog>
     </Container>
+  );
+
+  const expandable = useExpandableVariant();
+
+  return (
+    <motion.div
+      initial={{ x: '100vw' }}
+      animate={{ x: 0 }}
+      exit={{ x: ['10vw', '50vw', '100vw'] }}
+      transition={{ duration: 0.4, bounce: false, ease: 'easeInOut' }}
+    >
+      <AppContainer>
+        <Header />
+        <FlexContainer disableGutters>
+          {body}
+        </FlexContainer>
+        <PoweredBy />
+        <Initializer />
+      </AppContainer>
+      {expandable ? <SwapRoutesExpanded /> : null}
+    </motion.div>
   );
 };

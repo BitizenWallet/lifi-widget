@@ -14,7 +14,7 @@
     "hide": "Ausblenden",
     "lifiSwap": "LI.FI Swap",
     "light": "Hell",
-    "max": "max",
+    "max": "Max",
     "ok": "OK",
     "okay": "Okay",
     "removeSwap": "Swap entfernen",
@@ -165,7 +165,7 @@
     "sendToWallet": "An eine andere Wallet senden",
     "sentToAddress": "Gesendet an {{address}}",
     "stepBridge": "Bridge",
-    "stepDetails": "{{tool}} via LI.FI",
+    "stepDetails": "{{tool}} via BitizenSwap",
     "stepSwap": "Swap",
     "stepSwapAndBridge": "Tauschen und überbrücken",
     "success": {

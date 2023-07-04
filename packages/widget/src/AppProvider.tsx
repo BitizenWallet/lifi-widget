@@ -1,7 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 import { Fragment } from 'react';
-import { MemoryRouter, useInRouterContext } from 'react-router-dom';
+import { BrowserRouter, useInRouterContext } from 'react-router-dom';
 import { queryClient } from './config/queryClient';
 import {
   I18nProvider,
@@ -44,7 +44,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
 export const AppRouter: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { buildSwapUrl } = useWidgetConfig();
   const inRouterContext = useInRouterContext();
-  const Router = inRouterContext ? Fragment : MemoryRouter;
+  const Router = inRouterContext ? Fragment : BrowserRouter;
   return (
     <Router>
       {children}

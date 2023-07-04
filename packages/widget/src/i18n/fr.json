@@ -15,7 +15,7 @@
     "learnMore": "Plus d'info",
     "lifiSwap": "LI.FI Swap",
     "light": "Clair",
-    "max": "max",
+    "max": "Max",
     "ok": "Ok",
     "okay": "D'accord",
     "removeSwap": "Supprimer l'échange",
@@ -173,7 +173,7 @@
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sentToAddress": "Envoyé à {{address}}",
     "stepBridge": "Bridge",
-    "stepDetails": "{{tool}} via LI.FI",
+    "stepDetails": "{{tool}} via BitizenSwap",
     "stepSwap": "Échanger",
     "stepSwapAndBridge": "Échange et Bridge",
     "success": {

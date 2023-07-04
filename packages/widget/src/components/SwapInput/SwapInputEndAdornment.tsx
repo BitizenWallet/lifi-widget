@@ -57,10 +57,17 @@ export const SwapInputEndAdornment = ({ formType }: SwapFormTypeProps) => {
           variant="rectangular"
           width={46}
           height={24}
-          sx={{ borderRadius: 0.5 }}
+          sx={{ borderRadius: 1 }}
         />
       ) : formType === 'from' && token?.amount ? (
-        <Button onClick={handleMax}>{t('button.max')}</Button>
+        <Button sx={{
+          backgroundColor: 'rgba(255, 255, 255, 0.12)',
+          color: 'rgba(0, 183, 140, 0.65)',
+          borderRadius: 1,
+          paddingLeft: 1.4,
+          paddingRight: 1.4,
+          fontWeight: 600,
+        }} onClick={handleMax}>{t('button.max')}</Button>
       ) : null}
     </InputAdornment>
   );

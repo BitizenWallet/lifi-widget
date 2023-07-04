@@ -115,12 +115,14 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     this.isActivationInProgress = true;
     try {
       await this.windowProvider?.request({
-        method: 'eth_requestAccounts',
+        method: (this as any).doNotShowWalletSelector ? 'bitizen_requestAccounts' : 'eth_requestAccounts',
       });
       await this.calcAccountData();
     } catch (error) {
       this.isActivationInProgress = false;
       throw error;
+    } finally {
+      (this as any).doNotShowWalletSelector = false;
     }
 
     this.isActivationInProgress = false;
@@ -175,7 +177,7 @@ export class InjectedConnector extends events.EventEmitter implements Wallet {
     );
     const signer = provider.getSigner();
     this.account = {
-      chainId: await signer.getChainId(),
+      chainId: (window as any).ethereum.chainId,
       address: await signer.getAddress(),
       signer,
       provider,

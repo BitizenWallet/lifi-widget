@@ -100,7 +100,7 @@ export const useGasSufficiency = (route?: Route) => {
 
           const insufficientAmount = insufficient
             ? gasCosts[chainId].tokenAmount?.minus(gasTokenBalance) ??
-              gasCosts[chainId].gasAmount.minus(gasTokenBalance)
+            gasCosts[chainId].gasAmount.minus(gasTokenBalance)
             : undefined;
 
           gasCosts[chainId] = {

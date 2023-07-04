@@ -5,6 +5,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CircularIcon } from './CircularProgress.style';
 import { LinkButton } from './StepProcess.style';
+import { openUrlInBitizen } from '../../utils';
 
 export const DestinationWalletAddress: React.FC<{
   step: LifiStep;
@@ -33,18 +34,17 @@ export const DestinationWalletAddress: React.FC<{
         <Typography mx={2} flex={1} fontSize={14} fontWeight={400}>
           {isDone
             ? t('swap.sentToAddress', {
-                address: toAddress,
-              })
+              address: toAddress,
+            })
             : t('swap.sendToAddress', {
-                address: toAddress,
-              })}
+              address: toAddress,
+            })}
         </Typography>
         <LinkButton
           size="small"
           edge="end"
           LinkComponent={Link}
-          href={toAddressLink}
-          target="_blank"
+          onClick={() => openUrlInBitizen(toAddressLink)}
           rel="nofollow noreferrer"
         >
           <LinkRoundedIcon />

@@ -12,7 +12,7 @@ export const TextSecondaryContainer = styled(Box, {
       : theme.palette.grey[800],
   margin: connected
     ? theme.spacing(0.5, 0, 0, 1.875)
-    : theme.spacing(0, 0, 0, 6),
+    : theme.spacing(0, 0, 0, 0),
   padding: connected
     ? theme.spacing(0, 0, 0, 3.875)
     : theme.spacing(0, 0, 0, 0),

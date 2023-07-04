@@ -4,6 +4,7 @@ import { Box, Link, Typography } from '@mui/material';
 import { useProcessMessage } from '../../hooks';
 import { CircularProgress } from './CircularProgress';
 import { LinkButton } from './StepProcess.style';
+import { openUrlInBitizen } from '../../utils';
 
 export const StepProcess: React.FC<{
   step: LifiStep;
@@ -32,9 +33,7 @@ export const StepProcess: React.FC<{
             size="small"
             edge="end"
             LinkComponent={Link}
-            href={process.txLink}
-            target="_blank"
-            rel="nofollow noreferrer"
+            onClick={() => openUrlInBitizen(process.txLink!)}
           >
             <LinkRoundedIcon />
           </LinkButton>

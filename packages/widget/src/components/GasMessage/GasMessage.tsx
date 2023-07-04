@@ -16,15 +16,18 @@ export const GasMessage: React.FC<GasMessageProps> = ({ route, ...props }) => {
   return (
     <Collapse
       timeout={225}
-      in={Boolean(insufficientFunds || insufficientGas?.length)}
+      in={Boolean(insufficientFunds)}// || insufficientGas?.length)}
       unmountOnExit
       mountOnEnter
     >
       <Box {...props}>
-        {insufficientFunds ? (
+        {/* {insufficientFunds ? (
           <FundsSufficiencyMessage />
         ) : insufficientGas?.length ? (
           <GasSufficiencyMessage insufficientGas={insufficientGas} />
+        ) : null} */}
+        {insufficientFunds ? (
+          <FundsSufficiencyMessage />
         ) : null}
       </Box>
     </Collapse>

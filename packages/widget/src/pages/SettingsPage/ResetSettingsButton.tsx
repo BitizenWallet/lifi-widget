@@ -28,15 +28,16 @@ export const ResetSettingsButton: React.FC = () => {
     if (tools) {
       resetSettings(
         config,
-        tools.bridges.map((tool) => tool.key),
-        tools.exchanges.map((tool) => tool.key),
+        [], []
+        // tools.bridges.map((tool) => tool.key),
+        // tools.exchanges.map((tool) => tool.key),
       );
     }
     toggleDialog();
   };
 
   return (
-    <Box px={3} mt={1.5}>
+    <Box px={2.6} mt={1.5}>
       <Button onClick={toggleDialog} fullWidth>
         {t('button.resetSettings')}
       </Button>

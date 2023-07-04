@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import {
   formatTokenAmount,
   formatTokenPrice,
+  openUrlInBitizen,
   shortenAddress,
 } from '../../utils';
 import { IconButton, ListItem, ListItemButton } from './TokenList.style';
@@ -86,7 +87,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       dense
     >
       <ListItemAvatar>
-        <Avatar src={token.logoURI} alt={token.symbol}>
+        <Avatar sx={{
+          width: 38,
+          height: 38,
+        }} src={token.logoURI} alt={token.symbol}>
           {token.symbol?.[0]}
         </Avatar>
       </ListItemAvatar>
@@ -125,10 +129,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    openUrlInBitizen(`${chain?.metamask.blockExplorerUrls[0]}address/${token.address}`)
+                  }}
                 >
                   <OpenInNewIcon />
                 </IconButton>

@@ -1,4 +1,3 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
@@ -16,6 +15,7 @@ import { HeaderAppBar } from './Header.style';
 import { NavigationTabs } from './NavigationTabs';
 import { WalletMenuButton } from './WalletHeader';
 import { useHeaderActionStore } from './useHeaderActionStore';
+import { BZArrowBackIcon } from '../../icons/BZArrowBackIcon';
 
 export const NavigationHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -88,32 +88,41 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <>
-      <HeaderAppBar elevation={0}>
+      <HeaderAppBar style={{ paddingTop: '5px', minHeight: '56px' }} elevation={0}>
         {backButtonRoutes.includes(path) ? (
           <IconButton size="medium" edge="start" onClick={navigateBack}>
-            <ArrowBackIcon />
+            <BZArrowBackIcon style={{ fontSize: '25px' }} />
           </IconButton>
         ) : null}
         {splitSubvariant ? (
           <Box flex={1}>
             {!hiddenUI?.includes(HiddenUI.WalletMenu) ? (
-              <WalletMenuButton />
+              <WalletMenuButton formType='from' />
             ) : null}
           </Box>
         ) : (
-          <Typography
-            fontSize={hasPath ? 18 : 24}
+          hasPath ? <Typography
+            fontSize={20}
             align={hasPath ? 'center' : 'left'}
             fontWeight="700"
             flex={1}
             noWrap
           >
             {handleHeaderTitle()}
-          </Typography>
+          </Typography> :
+            <Typography
+              fontSize='31px' // 18 : 24
+              align='left'
+              fontWeight="700"
+              flex={1}
+              noWrap
+            >
+              Swap & Bridge
+            </Typography>
         )}
         <Routes>
           <Route
-            path={navigationRoutes.home}
+            path={pathname}
             element={
               <>
                 {account.isActive && !hiddenUI?.includes(HiddenUI.History) ? (
@@ -123,23 +132,26 @@ export const NavigationHeader: React.FC = () => {
                     arrow
                   >
                     <IconButton
-                      size="medium"
+                      size="small"
                       edge="start"
                       onClick={() => navigate(navigationRoutes.swapHistory)}
+                      sx={{
+                        marginRight: 1,
+                      }}
                     >
-                      <ReceiptLongIcon />
+                      <ReceiptLongIcon sx={{ fontSize: '25px' }} />
                     </IconButton>
                   </Tooltip>
                 ) : null}
                 <Tooltip title={t(`header.settings`)} enterDelay={400} arrow>
                   <IconButton
-                    size="medium"
+                    size="small"
                     onClick={() => navigate(navigationRoutes.settings)}
                     sx={{
-                      marginRight: -1.25,
+                      marginRight: -1,
                     }}
                   >
-                    <SettingsIcon />
+                    <SettingsIcon sx={{ fontSize: '25px' }} />
                   </IconButton>
                 </Tooltip>
               </>

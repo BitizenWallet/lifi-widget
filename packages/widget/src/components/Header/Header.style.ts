@@ -9,7 +9,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   alignItems: 'center',
   position: 'relative',
   minHeight: 40,
-  padding: theme.spacing(0, 3, 0, 3),
+  padding: theme.spacing(0, 2.6, 0, 2.6),
   ':first-of-type': {
     paddingTop: theme.spacing(1.5),
     paddingBottom: theme.spacing(0.5),
@@ -19,7 +19,7 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
 export const Container = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => ({
-  backgroundColor: alpha(theme.palette.background.default, 0.84),
+  backgroundColor: alpha(theme.palette.background.default, 1),
   backdropFilter: 'blur(12px)',
   position: sticky ? 'sticky' : 'relative',
   top: 0,
@@ -28,7 +28,7 @@ export const Container = styled(Box, {
 
 export const WalletButton = styled(Button)(({ theme }) => ({
   color: theme.palette.text.primary,
-  backgroundColor: 'transparent',
+  backgroundColor: 'rgba(255, 255, 255, 0.12) !important',
   padding: theme.spacing(1, 1.5),
   maxHeight: 40,
   fontSize: '0.875rem',

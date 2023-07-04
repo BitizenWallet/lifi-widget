@@ -48,7 +48,7 @@ export const SwapRouteCardEssentials: React.FC<
           </IconTypography>
           <Typography
             fontSize={14}
-            color="text.primary"
+            color="rgba(255, 255, 255, 0.75)"
             fontWeight="500"
             lineHeight={1}
           >
@@ -82,8 +82,8 @@ export const SwapRouteCardEssentials: React.FC<
           </IconTypography>
           <Typography
             fontSize={14}
-            color="text.primary"
             fontWeight="500"
+            color="rgba(255, 255, 255, 0.75)"
             lineHeight={1}
           >
             {t(`format.currency`, {
@@ -107,9 +107,9 @@ export const SwapRouteCardEssentials: React.FC<
           </IconTypography>
           <Typography
             fontSize={14}
-            color="text.primary"
             fontWeight="500"
             lineHeight={1}
+            color="rgba(255, 255, 255, 0.75)"
           >
             {t('swap.estimatedTime', {
               value: executionTimeMinutes,
@@ -129,8 +129,8 @@ export const SwapRouteCardEssentials: React.FC<
           </IconTypography>
           <Typography
             fontSize={14}
-            color="text.primary"
             fontWeight="500"
+            color="rgba(255, 255, 255, 0.75)"
             lineHeight={1}
           >
             {route.steps.length}

@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <title>Vite + React + TS</title>
+</head>
+
+<body style="margin: unset; min-height: 100vh; max-height: 100vh; background: #1E242B; overflow: hidden;">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    var timer = undefined;
+
+    function setTimer() {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        document.querySelector('input:focus')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        });
+      }, 100);
+    }
+
+    (function () {
+      localStorage.removeItem('bitizen_switchAccount');
+      window.addEventListener('scroll', setTimer);
+      window.addEventListener('resize', setTimer);
+    })()
+  </script>
+</body>
+
 </html>

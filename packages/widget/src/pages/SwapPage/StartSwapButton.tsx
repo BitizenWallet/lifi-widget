@@ -23,7 +23,7 @@ export const StartSwapButton: React.FC<StartSwapButtonProps> = ({
       onClick={onClick}
       text={text}
       hasRoute={Boolean(route)}
-      disabled={insufficientFunds || !!insufficientGas?.length}
+      disabled={insufficientFunds} // || !!insufficientGas?.length}
       loading={isFundsSufficiencyLoading || isGasSufficiencyLoading || loading}
     />
   );

@@ -29,6 +29,14 @@ import {
   getTokenValueLossThreshold,
 } from './TokenValueBottomSheet';
 import { calcValueLoss } from './utils';
+import { motion } from 'framer-motion'
+import { AppContainer } from '../../components/AppContainer';
+import { FlexContainer } from '../../components/AppContainer';
+import { Header } from '../../components/Header';
+import { Initializer } from '../../components/Initializer';
+import { PoweredBy } from '../../components/PoweredBy';
+import { SwapRoutesExpanded } from '../../components/SwapRoutes';
+import { useExpandableVariant } from '../../hooks';
 
 export const SwapPage: React.FC = () => {
   const { t } = useTranslation();
@@ -127,7 +135,7 @@ export const SwapPage: React.FC = () => {
       .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
       .find((process) => process.txHash)?.txHash ?? route?.fromAddress;
 
-  return (
+  const body = (
     <Container>
       {getStepList(route)}
       {variant === 'nft' ? <ContractComponent mt={2} /> : null}
@@ -147,7 +155,7 @@ export const SwapPage: React.FC = () => {
         />
       ) : null}
       {status === RouteExecutionStatus.Idle ||
-      status === RouteExecutionStatus.Failed ? (
+        status === RouteExecutionStatus.Failed ? (
         <>
           <GasMessage mt={2} route={route} />
           <Box mt={2} display="flex">
@@ -156,7 +164,7 @@ export const SwapPage: React.FC = () => {
               onClick={handleSwapClick}
               route={route}
               insurableRouteId={stateRouteId}
-              // disabled={status === 'idle' && (isValidating || !isValid)}
+            // disabled={status === 'idle' && (isValidating || !isValid)}
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
@@ -193,5 +201,26 @@ export const SwapPage: React.FC = () => {
         <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
       ) : null}
     </Container>
+  );
+
+  const expandable = useExpandableVariant();
+
+  return (
+    <motion.div
+      initial={{ x: '100vw' }}
+      animate={{ x: 0 }}
+      exit={{ x: ['10vw', '50vw', '100vw'] }}
+      transition={{ duration: 0.4, bounce: false, ease: 'easeInOut' }}
+    >
+      <AppContainer>
+        <Header />
+        <FlexContainer disableGutters>
+          {body}
+        </FlexContainer>
+        <PoweredBy />
+        <Initializer />
+      </AppContainer>
+      {expandable ? <SwapRoutesExpanded /> : null}
+    </motion.div>
   );
 };

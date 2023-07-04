@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^2.0.0-beta.7",
+    "@lifi/widget": "../../packages/widget",
     "events": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

@@ -19,8 +19,8 @@ export const SwapInputStartAdornment: React.FC<SwapFormTypeProps> = ({
   const isSelected = !!(chain && token);
 
   return isSelected ? (
-    <TokenAvatar token={token} chain={chain} sx={{ marginLeft: 2 }} />
+    <TokenAvatar token={token} chain={chain} sx={{ height: 35 }} />
   ) : (
-    <TokenAvatarDefault sx={{ marginLeft: 2 }} />
+    <TokenAvatarDefault />
   );
 };

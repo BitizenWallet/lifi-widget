@@ -108,12 +108,12 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
     palette.primary.main;
   const primaryLightColor = lighten(
     (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
-      palette.primary.main,
+    palette.primary.main,
     0.5,
   );
   const primaryDarkColor = darken(
     (theme.palette?.primary as SimplePaletteColorOptions)?.main ??
-      palette.primary.main,
+    palette.primary.main,
     0.2,
   );
   const contrastButtonColor =
@@ -145,12 +145,12 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
           palette.secondary.main,
         light: lighten(
           (theme.palette?.secondary as SimplePaletteColorOptions)?.main ??
-            palette.secondary.main,
+          palette.secondary.main,
           0.5,
         ),
         dark: darken(
           (theme.palette?.secondary as SimplePaletteColorOptions)?.main ??
-            palette.secondary.main,
+          palette.secondary.main,
           0.2,
         ),
       },
@@ -185,14 +185,14 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
         styleOverrides: {
           root: {
             [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                animationName: `${enterKeyframe}`,
-              },
+            {
+              animationName: `${enterKeyframe}`,
+            },
             [`& .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible}`]:
-              {
-                opacity: 0.1,
-                animationName: `${enterKeyframe}`,
-              },
+            {
+              opacity: 0.1,
+              animationName: `${enterKeyframe}`,
+            },
           },
         },
       },
@@ -224,9 +224,9 @@ export const createTheme = (mode: PaletteMode, theme: ThemeConfig = {}) => {
               color: contrastButtonColor,
             },
             [`&.${loadingButtonClasses.root}.${loadingButtonClasses.loading}`]:
-              {
-                color: 'transparent',
-              },
+            {
+              color: 'transparent',
+            },
           },
           text: {
             backgroundColor:

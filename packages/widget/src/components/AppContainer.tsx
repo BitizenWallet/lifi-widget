@@ -5,7 +5,7 @@ import { useWidgetConfig } from '../providers';
 import type { WidgetVariant } from '../types';
 import { createElementId, ElementId } from '../utils';
 
-export const maxHeight = 680;
+export const maxHeight = '100vh';
 
 export const AppExpandedContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
@@ -23,7 +23,7 @@ const RelativeContainer = styled(Box, {
   position: 'relative',
   boxSizing: 'content-box',
   width: '100%',
-  minWidth: 375,
+  minWidth: 320,
   maxWidth: 392,
   maxHeight: variant === 'drawer' ? 'none' : maxHeight,
   background: theme.palette.background.default,

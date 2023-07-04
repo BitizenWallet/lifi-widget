@@ -5,7 +5,6 @@ import { useWidgetConfig } from '../../providers';
 import { ElementId, createElementId, stickyHeaderRoutes } from '../../utils';
 import { Container } from './Header.style';
 import { NavigationHeader } from './NavigationHeader';
-import { WalletHeader } from './WalletHeader';
 
 export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   const { pathname } = useLocation();
@@ -21,10 +20,8 @@ export const HeaderContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
 };
 
 export const Header: FC = () => {
-  const { walletManagement, subvariant } = useWidgetConfig();
   return (
     <HeaderContainer>
-      {!walletManagement && subvariant !== 'split' ? <WalletHeader /> : null}
       <NavigationHeader />
     </HeaderContainer>
   );

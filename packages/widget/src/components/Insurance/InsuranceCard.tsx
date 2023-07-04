@@ -10,6 +10,7 @@ import { RouteExecutionStatus } from '../../stores';
 import { Card, CardIconButton, CardLabel, CardLabelTypography } from '../Card';
 import { Switch } from '../Switch';
 import type { InsuranceCardProps } from './types';
+import { openUrlInBitizen } from '../../utils';
 
 export const InsuranceCard: React.FC<InsuranceCardProps> = ({
   status,
@@ -77,13 +78,13 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
               <Trans>
                 {status === RouteExecutionStatus.Idle
                   ? t('swap.insurance.insure', {
-                      amount: insuredAmount,
-                      tokenSymbol: insuredTokenSymbol,
-                    })
+                    amount: insuredAmount,
+                    tokenSymbol: insuredTokenSymbol,
+                  })
                   : t('swap.insurance.insured', {
-                      amount: insuredAmount,
-                      tokenSymbol: insuredTokenSymbol,
-                    })}
+                    amount: insuredAmount,
+                    tokenSymbol: insuredTokenSymbol,
+                  })}
               </Trans>
             </Typography>
             <Collapse
@@ -107,12 +108,9 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({
               </Box>
             </Collapse>
             <Link
-              href={
-                status === RouteExecutionStatus.Idle
-                  ? 'https://docs.insurace.io/landing-page/documentation/cover-products/bridge-cover/li.fi'
-                  : `https://app.insurace.io/bridge-cover?search=${insuranceCoverageId}`
-              }
-              target="_blank"
+              onClick={() => openUrlInBitizen(status === RouteExecutionStatus.Idle
+                ? 'https://docs.insurace.io/landing-page/documentation/cover-products/bridge-cover/li.fi'
+                : `https://app.insurace.io/bridge-cover?search=${insuranceCoverageId}`)}
               underline="none"
               color="text.primary"
             >

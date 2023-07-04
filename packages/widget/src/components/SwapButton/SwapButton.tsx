@@ -30,30 +30,27 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   };
 
   const getButtonText = () => {
-    if (account.isActive) {
-      if (!hasRoute) {
-        switch (variant) {
-          case 'nft':
-            return t(`button.buy`);
-          case 'refuel':
-            return t(`button.getGas`);
-          default:
-            return t(`button.swap`);
-        }
-      }
-      if (text) {
-        return text;
-      }
+    if (!hasRoute) {
       switch (variant) {
         case 'nft':
-          return t(`button.reviewPurchase`);
+          return t(`button.buy`);
         case 'refuel':
-          return t(`button.reviewGasSwap`);
+          return t(`button.getGas`);
         default:
-          return t(`button.reviewSwap`);
+          return t(`button.swap`);
       }
     }
-    return t(`button.connectWallet`);
+    if (text) {
+      return text;
+    }
+    switch (variant) {
+      case 'nft':
+        return t(`button.reviewPurchase`);
+      case 'refuel':
+        return t(`button.reviewGasSwap`);
+      default:
+        return t(`button.reviewSwap`);
+    }
   };
 
   return (
@@ -61,10 +58,14 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
       variant="contained"
       color="primary"
       onClick={handleSwapButtonClick}
-      disabled={disabled}
+      disabled={disabled || !account.isActive}
       loading={loading}
       loadingPosition="center"
       fullWidth
+      sx={{
+        fontSize: 17,
+        fontWeight: 700,
+      }}
     >
       {getButtonText()}
     </LoadingButton>

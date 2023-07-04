@@ -152,18 +152,18 @@ export const useSwapRoutes = ({ insurableRoute }: SwapRoutesProps = {}) => {
 
         const allowedBridges: string[] = insurableRoute
           ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'cross')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
+            step.includedSteps
+              .filter((includedStep) => includedStep.type === 'cross')
+              .map((includedStep) => includedStep.toolDetails.key),
+          )
           : enabledBridges;
 
         const allowedExchanges: string[] = insurableRoute
           ? insurableRoute.steps.flatMap((step) =>
-              step.includedSteps
-                .filter((includedStep) => includedStep.type === 'swap')
-                .map((includedStep) => includedStep.toolDetails.key),
-            )
+            step.includedSteps
+              .filter((includedStep) => includedStep.type === 'swap')
+              .map((includedStep) => includedStep.toolDetails.key),
+          )
           : enabledExchanges;
 
         if (variant === 'nft') {
@@ -192,8 +192,8 @@ export const useSwapRoutes = ({ insurableRoute }: SwapRoutesProps = {}) => {
           const customStep =
             variant === 'nft'
               ? contractCallQuote.includedSteps?.find(
-                  (step) => step.type === 'custom',
-                )
+                (step) => step.type === 'custom',
+              )
               : undefined;
 
           if (customStep && contractTool) {

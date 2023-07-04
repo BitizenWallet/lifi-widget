@@ -1,4 +1,4 @@
-import { useRoutes } from 'react-router-dom';
+import { useLocation, useRoutes } from 'react-router-dom';
 import { NotFound } from './components/NotFound';
 import { ActiveSwapsPage } from './pages/ActiveSwapsPage';
 import { MainPage } from './pages/MainPage';
@@ -14,6 +14,7 @@ import { SwapRoutesPage } from './pages/SwapRoutesPage';
 import { navigationRoutes } from './utils';
 
 export const AppRoutes = () => {
+  const location = useLocation();
   const element = useRoutes([
     {
       path: '/',
@@ -79,6 +80,6 @@ export const AppRoutes = () => {
       path: '*',
       element: <NotFound />,
     },
-  ]);
+  ], location);
   return element;
 };

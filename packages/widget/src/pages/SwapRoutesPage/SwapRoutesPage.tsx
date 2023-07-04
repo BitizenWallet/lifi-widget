@@ -13,6 +13,15 @@ import { useNavigateBack, useSwapRoutes } from '../../hooks';
 import { useSetExecutableRoute } from '../../stores';
 import { navigationRoutes } from '../../utils';
 import { Stack } from './SwapRoutesPage.style';
+import { motion } from 'framer-motion'
+import { AppContainer } from '../../components/AppContainer';
+import { FlexContainer } from '../../components/AppContainer';
+import { Header } from '../../components/Header';
+import { Initializer } from '../../components/Initializer';
+import { PoweredBy } from '../../components/PoweredBy';
+import { SwapRoutesExpanded } from '../../components/SwapRoutes';
+import { useExpandableVariant } from '../../hooks';
+
 
 export const SwapRoutesPage: React.FC<BoxProps> = () => {
   const { navigateBack, navigate } = useNavigateBack();
@@ -59,25 +68,42 @@ export const SwapRoutesPage: React.FC<BoxProps> = () => {
 
   const routeNotFound = !swapRoutes?.length && !isLoading && !isFetching;
 
+  const expandable = useExpandableVariant();
+
   return (
-    <Stack direction="column" spacing={2} flex={1}>
-      {routeNotFound ? (
-        <SwapRouteNotFoundCard />
-      ) : isLoading ? (
-        Array.from({ length: 3 }).map((_, index) => (
-          <SwapRouteCardSkeleton key={index} />
-        ))
-      ) : (
-        swapRoutes?.map((route: Route, index: number) => (
-          <SwapRouteCard
-            key={route.id}
-            route={route}
-            onClick={() => handleRouteClick(route)}
-            active={index === 0}
-            expanded={swapRoutes?.length <= 2}
-          />
-        ))
-      )}
-    </Stack>
+    <motion.div
+      initial={{ x: '100vw' }}
+      animate={{ x: 0 }}
+      exit={{ x: ['10vw', '50vw', '100vw'] }}
+      transition={{ duration: 0.4, bounce: false, ease: 'easeInOut' }}
+    >
+      <AppContainer>
+        <Header />
+        <FlexContainer disableGutters>
+          <Stack direction="column" spacing={2} flex={1}>
+            {routeNotFound ? (
+              <SwapRouteNotFoundCard />
+            ) : isLoading ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <SwapRouteCardSkeleton key={index} />
+              ))
+            ) : (
+              swapRoutes?.map((route: Route, index: number) => (
+                <SwapRouteCard
+                  key={route.id}
+                  route={route}
+                  onClick={() => handleRouteClick(route)}
+                  active={index === 0}
+                  expanded={swapRoutes?.length <= 2}
+                />
+              ))
+            )}
+          </Stack>
+        </FlexContainer>
+        <PoweredBy />
+        <Initializer />
+      </AppContainer>
+      {expandable ? <SwapRoutesExpanded /> : null}
+    </motion.div>
   );
 };
